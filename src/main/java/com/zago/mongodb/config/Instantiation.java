@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.zago.mongodb.domain.Post;
 import com.zago.mongodb.domain.User;
+import com.zago.mongodb.dto.AuthorDTO;
 import com.zago.mongodb.repository.PostRepository;
 import com.zago.mongodb.repository.UserRepository;
 
@@ -33,11 +34,11 @@ public class Instantiation implements CommandLineRunner{
 		User alex = new User(null, "Alex Green", "alex@gmail.com");
 		User bob = new User(null, "Bob Grey", "bob@gmail.com");
 		
-		Post post1 = new Post(null, sdf.parse("21/03/2018"), "Partiu Viagem", "Vou viajar para SP. Abraços", maria);
-		Post post2 = new Post(null, sdf.parse("20/07/2019"), "Trabalhar em PT", "To indo pra Portugal trabalhar... me desejam sorte", maria);
-		
-		
 		userRepository.saveAll(Arrays.asList(maria, alex, bob));
+		
+		Post post1 = new Post(null, sdf.parse("21/03/2018"), "Partiu Viagem", "Vou viajar para SP. Abraços", new AuthorDTO(maria));
+		Post post2 = new Post(null, sdf.parse("20/07/2019"), "Trabalhar em PT", "To indo pra Portugal trabalhar... me desejam sorte", new AuthorDTO(maria));
+		
 		postRepository.saveAll(Arrays.asList(post1, post2));
 	}
 
