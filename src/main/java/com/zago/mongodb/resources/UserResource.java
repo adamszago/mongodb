@@ -33,18 +33,24 @@ public class UserResource {
 	}
 
 	// Poderia ser também @GetMapping
-	@RequestMapping(value="/{id}",  method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<UserDTO> findById(@PathVariable String id) {
 		User user = service.findById(id);
 		return ResponseEntity.ok().body(new UserDTO(user));
 	}
-	
+
 	// Poderia ser também @PostMapping
-		@RequestMapping(method = RequestMethod.POST)
-		public ResponseEntity<Void> insert(@RequestBody UserDTO dto) {
-			User user =  service.fromDTO(dto);
-			user = service.insert(user);
-			URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
-			return ResponseEntity.created(uri).build();
-		}
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Void> insert(@RequestBody UserDTO dto) {
+		User user = service.fromDTO(dto);
+		user = service.insert(user);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable String id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 }
