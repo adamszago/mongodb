@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.zago.mongodb.domain.Post;
 import com.zago.mongodb.domain.User;
 import com.zago.mongodb.dto.UserDTO;
 import com.zago.mongodb.services.UserService;
@@ -53,13 +54,21 @@ public class UserResource {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	// Poderia ser também @PostMapping
-		@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-		public ResponseEntity<Void> update(@RequestBody UserDTO dto, @PathVariable String id) {
-			User user = service.fromDTO(dto);
-			user.setId(id);
-			user = service.update(user);
-			return ResponseEntity.noContent().build();
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody UserDTO dto, @PathVariable String id) {
+		User user = service.fromDTO(dto);
+		user.setId(id);
+		user = service.update(user);
+		return ResponseEntity.noContent().build();
+	}
+	
+	// Poderia ser também @GetMapping
+		@RequestMapping(value = "/{id}/posts", method = RequestMethod.GET)
+		public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
+			User user = service.findById(id);
+			return ResponseEntity.ok().body(user.getPosts());
 		}
+	
 }
