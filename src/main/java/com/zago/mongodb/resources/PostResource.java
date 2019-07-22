@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zago.mongodb.domain.Post;
-import com.zago.mongodb.dto.PostDTO;
 import com.zago.mongodb.services.PostService;
 
 @RestController
@@ -20,9 +19,9 @@ public class PostResource {
 
 	// Poderia ser também @GetMapping
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<PostDTO> findById(@PathVariable String id) {
+	public ResponseEntity<Post> findById(@PathVariable String id) {
 		Post obj = service.findById(id);
-		return ResponseEntity.ok().body(new PostDTO(obj));
+		return ResponseEntity.ok().body(obj);
 	}
 
 	
